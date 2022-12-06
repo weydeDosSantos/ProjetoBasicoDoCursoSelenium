@@ -13,6 +13,7 @@ public class BasePage {
 
 	/********* Escreve ***********/
 	public void escreve(String id_campo, String texto) {
+		getDriver().findElement(By.id(id_campo)).clear();
 		getDriver().findElement(By.id(id_campo)).sendKeys(texto);
 
 	}
@@ -24,32 +25,44 @@ public class BasePage {
 
 	/********* Escreve ***********/
 
-	/********* Clica ***********/
+	/********* ClicaRadio ***********/
 
 	public void clicarRadio(String id_radio) {
-		getDriver().findElement(By.id(id_radio)).click();
+		clicarRadio(By.id(id_radio));
 
 	}
 
-	public void clicarRadioby(By by) {
+	public void clicarRadio(By by) {
 		getDriver().findElement(by).click();
 
 	}
+
+	/********* ClicaRadio ***********/
+
+	/********* ClicaBotão ***********/
 
 	public void clicarBotao(By by) {
 		getDriver().findElement(by).click();
 	}
-	
+
+	public void clicarBotaoPorTexto(String texto) {
+		clicarBotao(By.xpath("//button[.='" + texto + "']"));
+	}
+
 	public void clicarBotao(String id) {
 		clicarBotao(By.id(id));
 	}
+
+	/********* ClicaBotão ***********/
+
+	/********* ClicaLink ***********/
 
 	public void clicarLink(String link) {
 		getDriver().findElement(By.linkText(link)).click();
 
 	}
 
-	/********* Clica ***********/
+	/********* ClicaLink ***********/
 
 	/********* Obtêm ***********/
 
@@ -88,8 +101,8 @@ public class BasePage {
 	}
 
 	public void selecionarComboPrime(String radical, String valor) {
-		clicarRadioby(By.xpath("//*[@id='" + radical + "_input']/../..//span"));
-		clicarRadioby(By.xpath("//ul[@id='" + radical + "_items']/li[.='" + valor + "']"));
+		clicarRadio(By.xpath("//*[@id='" + radical + "_input']/../..//span"));
+		clicarRadio(By.xpath("//ul[@id='" + radical + "_items']/li[.='" + valor + "']"));
 	}
 
 	/********* Combo ***********/
@@ -160,9 +173,9 @@ public class BasePage {
 
 	/********* ObterTexto ***********/
 
-	public void ClicarBotaoTabela(String colunaBusca, String valor, String colunaBotao, String idTabela) {
+	public WebElement obterCelula(String colunaBusca, String valor, String colunaBotao, String idTabela) {
 		// PROCURAR COLUNA DO REGISTRO
-		WebElement tabela = getDriver().findElement(By.xpath("//table[@id='elementosForm:tableUsuarios']"));
+		WebElement tabela = getDriver().findElement(By.xpath("//table[@id='" + idTabela + "']"));
 		int idColuna = obterIndiceColuna(colunaBusca, tabela);
 		// ENCONTRAR A LINHA DO REGISTRO
 		int idLinha = obterIndiceLinha(valor, tabela, idColuna);
@@ -170,6 +183,12 @@ public class BasePage {
 		int idColunaBotao = obterIndiceColuna(colunaBotao, tabela);
 		// CLICAR NO BOTAO DA CELULA ENCONTRADA
 		WebElement celula = tabela.findElement(By.xpath(".//tr[" + idLinha + "]/td[" + idColunaBotao + "]"));
+		return celula;
+	}
+
+	public void ClicarBotaoTabela(String colunaBusca, String valor, String colunaBotao, String idTabela) {
+
+		WebElement celula = obterCelula(colunaBusca, valor, colunaBotao, idTabela);
 		celula.findElement(By.xpath(".//input")).click();
 	}
 
