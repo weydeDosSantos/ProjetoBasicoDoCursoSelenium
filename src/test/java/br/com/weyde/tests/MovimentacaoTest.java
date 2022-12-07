@@ -1,8 +1,9 @@
 package br.com.weyde.tests;
 
-import java.sql.Array;
-import java.util.ArrayList;
+import static br.com.weyde.utils.DataUtils.obterDataFormatada;
+
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Assert;
@@ -11,6 +12,7 @@ import org.junit.Test;
 import br.com.weyde.core.BaseTest;
 import br.com.weyde.pages.MenuPage;
 import br.com.weyde.pages.MovimentacaoPage;
+import br.com.weyde.utils.DataUtils;
 
 public class MovimentacaoTest extends BaseTest {
 
@@ -24,7 +26,7 @@ public class MovimentacaoTest extends BaseTest {
 		movPage.dataMovimentacao("05/12/2022");
 		movPage.dataPagamento("06/12/2022");
 		movPage.descricao("Movimentação do teste");
-		movPage.interessado("06/12/2022");
+		movPage.interessado("qualquer");
 		movPage.valor("500");
 		movPage.conta("Conta para teste alterada2");
 		movPage.pago();
@@ -49,6 +51,25 @@ public class MovimentacaoTest extends BaseTest {
 				"Valor é obrigatório", "Valor deve ser um número")));
 
 	}
+	
+	@Test
+	public void testInserirMovimentacaoFutura() {
+		menuPage.acessarTelaInserirMovimentacaoS();
+		Date dataFutura = DataUtils.obterDataComDiferencaDias(5);
+		movPage.dataMovimentacao(obterDataFormatada(dataFutura));
+		movPage.dataPagamento(obterDataFormatada(dataFutura));
+		movPage.descricao("Movimentação do teste");
+		movPage.interessado("qualquer");
+		movPage.valor("500");
+		movPage.conta("Conta para teste alterada2");
+		movPage.pago();
+		movPage.Salvar();
+		
+		List<String> erros = movPage.obterErros();
+		Assert.assertTrue(erros.contains(("Data da Movimentação deve ser menor ou igual à data atual")));
+		
+	}
+	
 	
 	
 
