@@ -20,7 +20,7 @@ public class ContaTest extends BaseTest {
 		contasPage.salvar();
 		Assert.assertEquals("Conta adicionada com sucesso!", contasPage.obterMensagemSucesso());
 	}
-	
+
 	@Test
 	public void testAlterarConta() {
 		menuPage.acessarTelaListarConta();
@@ -30,7 +30,7 @@ public class ContaTest extends BaseTest {
 		Assert.assertEquals("Conta alterada com sucesso!", contasPage.obterMensagemSucesso());
 
 	}
-	
+
 	@Test
 	public void inserirContaMesmoNome() {
 		menuPage.acessarTelaInserirConta();
@@ -38,6 +38,13 @@ public class ContaTest extends BaseTest {
 		contasPage.salvar();
 		Assert.assertEquals("Já existe uma conta com esse nome!", contasPage.obterMensagemErro());
 
-		
+	}
+	
+	@Test
+	public void testExcluirContaComMovimentacao() {
+		menuPage.acessarTelaListarConta();
+		contasPage.clicarExcluirContas("sada 2");
+		Assert.assertEquals("Conta em uso na movimentações", contasPage.obterMensagemErro());
+
 	}
 }
