@@ -2,8 +2,6 @@ package br.com.weyde.pages;
 
 import static br.com.weyde.core.DriverFactory.getDriver;
 
-import org.openqa.selenium.By;
-
 import br.com.weyde.core.BasePage;
 
 public class LoginPage extends BasePage {

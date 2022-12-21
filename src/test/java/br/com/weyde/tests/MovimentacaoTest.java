@@ -7,20 +7,24 @@ import java.util.Date;
 import java.util.List;
 
 import org.junit.Assert;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import br.com.weyde.core.BaseTest;
+import br.com.weyde.core.Propriedades;
 import br.com.weyde.pages.MenuPage;
 import br.com.weyde.pages.MovimentacaoPage;
 import br.com.weyde.utils.DataUtils;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MovimentacaoTest extends BaseTest {
 
 	private MenuPage menuPage = new MenuPage();
 	private MovimentacaoPage movPage = new MovimentacaoPage();
 
 	@Test
-	public void testInserirMovimentacao() {
+	public void test1_InserirMovimentacao() {
 
 		menuPage.acessarTelaInserirMovimentacaoS();
 		movPage.dataMovimentacao(obterDataFormatada(new Date()));
@@ -28,7 +32,7 @@ public class MovimentacaoTest extends BaseTest {
 		movPage.descricao("Movimentação do teste");
 		movPage.interessado("qualquer");
 		movPage.valor("500");
-		movPage.conta("Conta para teste alterada2");
+		movPage.conta(Propriedades.NOME_CONTA_ALTERADA);
 		movPage.pago();
 		movPage.Salvar();
 
@@ -37,7 +41,7 @@ public class MovimentacaoTest extends BaseTest {
 	}
 
 	@Test
-	public void testCamposObrigatorios() {
+	public void test2CamposObrigatorios() {
 		menuPage.acessarTelaInserirMovimentacaoS();
 
 		movPage.Salvar();
@@ -53,7 +57,7 @@ public class MovimentacaoTest extends BaseTest {
 	}
 	
 	@Test
-	public void testInserirMovimentacaoFutura() {
+	public void test3InserirMovimentacaoFutura() {
 		menuPage.acessarTelaInserirMovimentacaoS();
 		Date dataFutura = DataUtils.obterDataComDiferencaDias(5);
 		movPage.dataMovimentacao(obterDataFormatada(dataFutura));
@@ -61,7 +65,7 @@ public class MovimentacaoTest extends BaseTest {
 		movPage.descricao("Movimentação do teste");
 		movPage.interessado("qualquer");
 		movPage.valor("500");
-		movPage.conta("Conta para teste alterada2");
+		movPage.conta(Propriedades.NOME_CONTA_ALTERADA);
 		movPage.pago();
 		movPage.Salvar();
 		
